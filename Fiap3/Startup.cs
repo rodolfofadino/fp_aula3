@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.ResponseCompression;
 
 namespace Fiap3
 {
@@ -24,6 +25,11 @@ namespace Fiap3
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddApiVersioning(o => o.ReportApiVersions = true);
+            services.Configure<GzipCompressionProviderOptions>(o => 
+            o.Level = System.IO.Compression.CompressionLevel.Fastest);
+            services.AddResponseCompression(o => {
+                o.Providers.Add<GzipCompressionProvider>(); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,7 +39,7 @@ namespace Fiap3
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseResponseCompression();
             app.UseMvc();
         }
     }
