@@ -1,5 +1,6 @@
 ﻿using Fiap3.Models;
 using Fiap3.Services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace Fiap3.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
+    [EnableCors("AllowAllOrigins")]
     public class RecipesController : Controller
     {
         private RecipeService _service;
